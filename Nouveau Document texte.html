@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameHub - Download Mobile Games</title>
+    <style>
+        :root {
+            --primary-color: #ff4757;
+            --secondary-color: #1f1f1f;
+            --accent-color: #5352ed;
+            --dark-bg: #121212;
+            --darker-bg: #0a0a0a;
+            --card-bg: #1e1e1e;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --gray: #747d8c;
+            --dark-gray: #2f3542;
+            --yellow: #ffa502;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: var(--secondary-color);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .logo {
+            text-align: center;
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--text-primary);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .logo span {
+            color: var(--primary-color);
+        }
+        
+        .search-bar {
+            background-color: var(--darker-bg);
+            border-radius: 50px;
+            padding: 12px 20px;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .search-bar input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            background-color: transparent;
+            color: var(--text-primary);
+        }
+        
+        .search-bar i {
+            color: var(--text-secondary);
+            margin-right: 10px;
+        }
+        
+        .game-card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .game-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .game-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-right: 15px;
+        }
+        
+        .game-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .game-info {
+            flex: 1;
+        }
+        
+        .game-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: var(--text-primary);
+        }
+        
+        .game-stats {
+            display: flex;
+            align-items: center;
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .game-stats i {
+            margin-right: 5px;
+        }
+        
+        .game-stats span {
+            margin-right: 15px;
+        }
+        
+        .game-version {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+        
+        .device-options {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+        
+        .device {
+            padding: 5px 12px;
+            border-radius: 20px;
+            margin-right: 10px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .ios {
+            color: #007aff;
+            background-color: rgba(0, 122, 255, 0.2);
+            border: 1px solid rgba(0, 122, 255, 0.3);
+        }
+        
+        .android {
+            color: #3ddc84;
+            background-color: rgba(61, 220, 132, 0.2);
+            border: 1px solid rgba(61, 220, 132, 0.3);
+        }
+        
+        .rating {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        
+        .rating i {
+            margin-right: 3px;
+            color: var(--yellow);
+        }
+        
+        .download-btn {
+            padding: 8px 20px;
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .download-btn:hover {
+            background-color: #ff2e43;
+        }
+        
+        .section-title {
+            margin: 30px 0 15px;
+            font-size: 22px;
+            font-weight: bold;
+            color: var(--text-primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .section-title a {
+            font-size: 14px;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 15px;
+        }
+        
+        .game-grid-item {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .game-grid-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 71, 87, 0.3);
+        }
+        
+        .game-grid-image {
+            height: 120px;
+            overflow: hidden;
+        }
+        
+        .game-grid-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .game-grid-info {
+            padding: 10px;
+        }
+        
+        .game-grid-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: var(--text-primary);
+        }
+        
+        .game-grid-category {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+        }
+        
+        .game-grid-stats {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .game-grid-rating {
+            font-size: 12px;
+            color: var(--gray);
+            display: flex;
+            align-items: center;
+        }
+        
+        .game-grid-rating i {
+            color: var(--yellow);
+            margin-right: 3px;
+        }
+        
+        .premium-badge {
+            background-color: var(--yellow);
+            color: #000000;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 165, 2, 0.5);
+        }
+        
+        .tab-bar {
+            background-color: var(--darker-bg);
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .tab-item {
+            color: var(--text-secondary);
+            text-align: center;
+            font-size: 12px;
+        }
+        
+        .tab-item.active {
+            color: var(--primary-color);
+        }
+        
+        .tab-item i {
+            font-size: 20px;
+            margin-bottom: 3px;
+            display: block;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .game-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header {
+                padding: 15px;
+            }
+            
+            .logo {
+                font-size: 24px;
+            }
+            
+            .game-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Additional style for featured section */
+        .featured-section {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            height: 200px;
+        }
+
+        .featured-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .featured-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+        }
+
+        .featured-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .featured-subtitle {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .featured-subtitle span {
+            margin-right: 10px;
+        }
+
+        /* For notification dot */
+        .notification-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            display: inline-block;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">Game<span>Hub</span></div>
+            <div class="search-bar">
+                <i>🔍</i>
+                <input type="text" placeholder="Search games or apps" id="searchInput">
+            </div>
+        </header>
+        
+        <div class="featured-section">
+            <img src="/api/placeholder/800/400" alt="Featured Game" class="featured-image">
+            <div class="featured-overlay">
+                <div class="featured-title">The Best Game Video</div>
+                <div class="featured-subtitle">
+                    <span>⭐ Action RPG</span>
+                    <span>4.8</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="game-card">
+            <div class="game-icon">
+                <img src="/api/placeholder/80/80" alt="FC 24 Mobile">
+            </div>
+            <div class="game-info">
+                <div class="game-title">FC 24 Mobile</div>
+                <div class="game-stats">
+                    <i>👤</i>
+                    <span>439,415</span>
+                </div>
+                <div class="game-version">Latest: 2.4.1</div>
+                <div class="device-options">
+                    <div class="device ios">iOS</div>
+                    <div class="device android">ANDROID</div>
+                </div>
+            </div>
+            <div class="rating">
+                <i>⭐</i> 4.9
+            </div>
+            <a href="#" class="download-btn">Download</a>
+        </div>
+        
+        <div class="game-card">
+            <div class="game-icon">
+                <img src="/api/placeholder/80/80" alt="GTA 5 Mobile">
+            </div>
+            <div class="game-info">
+                <div class="game-title">GTA 5 Mobile</div>
+                <div class="game-stats">
+                    <i>👤</i>
+                    <span>640,779</span>
+                </div>
+                <div class="game-version">Latest: 3.2.1</div>
+                <div class="device-options">
+                    <div class="device ios">iOS</div>
+                    <div class="device android">ANDROID</div>
+                </div>
+            </div>
+            <div class="rating">
+                <i>⭐</i> 4.7
+            </div>
+            <a href="#" class="download-btn">Download</a>
+        </div>
+        
+        <div class="game-card">
+            <div class="game-icon">
+                <img src="/api/placeholder/80/80" alt="Fortnite Mobile">
+            </div>
+            <div class="game-info">
+                <div class="game-title">Fortnite Mobile</div>
+                <div class="game-stats">
+                    <i>👤</i>
+                    <span>221,906</span>
+                </div>
+                <div class="game-version">Latest: 1.8.9</div>
+                <div class="device-options">
+                    <div class="device ios">iOS</div>
+                    <div class="device android">ANDROID</div>
+                </div>
+            </div>
+            <div class="rating">
+                <i>⭐</i> 4.8
+            </div>
+            <a href="#" class="download-btn">Download</a>
+        </div>
+        
+        <div class="game-card">
+            <div class="game-icon">
+                <img src="/api/placeholder/80/80" alt="Minecraft">
+            </div>
+            <div class="game-info">
+                <div class="game-title">Minecraft</div>
+                <div class="game-stats">
+                    <i>👤</i>
+                    <span>150,970</span>
+                </div>
+                <div class="game-version">Latest: 1.20.0</div>
+                <div class="device-options">
+                    <div class="device ios">iOS</div>
+                    <div class="device android">ANDROID</div>
+                </div>
+            </div>
+            <div class="rating">
+                <i>⭐</i> 4.9
+            </div>
+            <a href="#" class="download-btn">Download</a>
+        </div>
+        
+        <div class="section-title">
+            <span>New Releases</span>
+            <a href="#">See All</a>
+        </div>
+        
+        <div class="game-grid">
+            <div class="game-grid-item">
+                <div class="game-grid-image">
+                    <img src="/api/placeholder/120/120" alt="Roblox">
+                </div>
+                <div class="game-grid-info">
+                    <div class="game-grid-title">Roblox</div>
+                    <div class="game-grid-category">Arcade</div>
+                    <div class="game-grid-stats">
+                        <div class="game-grid-rating">
+                            <i>⭐</i> 4.7
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="game-grid-item">
+                <div class="game-grid-image">
+                    <img src="/api/placeholder/120/120" alt="Rainbow Friends">
+                </div>
+                <div class="game-grid-info">
+                    <div class="game-grid-title">Rainbow Friends</div>
+                    <div class="game-grid-category">Animations</div>
+                    <div class="game-grid-stats">
+                        <div class="game-grid-rating">
+                            <i>⭐</i> 4.2
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="game-grid-item">
+                <div class="game-grid-image">
+                    <img src="/api/placeholder/120/120" alt="SAHUR II">
+                </div>
+                <div class="game-grid-info">
+                    <div class="game-grid-title">SAHUR II</div>
+                    <div class="game-grid-category">Action</div>
+                    <div class="game-grid-stats">
+                        <div class="game-grid-rating">
+                            <i>⭐</i> 4.5
+                        </div>
+                        <span class="premium-badge">PREMIUM</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section-title">
+            <span>Recommended For You</span>
+            <a href="#">See All</a>
+        </div>
+        
+        <div class="game-grid">
+            <div class="game-grid-item">
+                <div class="game-grid-image">
+                    <img src="/api/placeholder/120/120" alt="Call of Duty Mobile">
+                </div>
+                <div class="game-grid-info">
+                    <div class="game-grid-title">Call of Duty Mobile</div>
+                    <div class="game-grid-category">Action</div>
+                    <div class="game-grid-stats">
+                        <div class="game-grid-rating">
+                            <i>⭐</i> 4.6
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="game-grid-item">
+                <div class="game-grid-image">
+                    <img src="/api/placeholder/120/120" alt="PUBG Mobile">
+                </div>
+                <div class="game-grid-info">
+                    <div class="game-grid-title">PUBG Mobile</div>
+                    <div class="game-grid-category">Battle Royale</div>
+                    <div class="game-grid-stats">
+                        <div class="game-grid-rating">
+                            <i>⭐</i> 4.3
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="game-grid-item">
+                <div class="game-grid-image">
+                    <img src="/api/placeholder/120/120" alt="FIFA Mobile">
+                </div>
+                <div class="game-grid-info">
+                    <div class="game-grid-title">FIFA Mobile</div>
+                    <div class="game-grid-category">Sports</div>
+                    <div class="game-grid-stats">
+                        <div class="game-grid-rating">
+                            <i>⭐</i> 4.4
+                        </div>
+                        <span class="premium-badge">PREMIUM</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="tab-bar">
+        <div class="tab-item active">
+            <i>🏠</i>
+            <span>Home</span>
+        </div>
+        <div class="tab-item">
+            <i>🎮</i>
+            <span>Games</span>
+        </div>
+        <div class="tab-item">
+            <i>📱</i>
+            <span>Apps</span>
+        </div>
+        <div class="tab-item">
+            <i>⬇️</i>
+            <span>Library</span>
+        </div>
+        <div class="tab-item">
+            <i>👤</i>
+            <span>Profile</span>
+            <span class="notification-dot"></span>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fonction pour la recherche
+            const searchInput = document.getElementById('searchInput');
+            const gameCards = document.querySelectorAll('.game-card');
+            const gameGridItems = document.querySelectorAll('.game-grid-item');
+            
+            searchInput.addEventListener('input', function() {
+                const searchTerm = searchInput.value.toLowerCase();
+                
+                // Recherche dans les cartes de jeux principales
+                gameCards.forEach(card => {
+                    const title = card.querySelector('.game-title').textContent.toLowerCase();
+                    if (title.includes(searchTerm)) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                
+                // Recherche dans les grilles de jeux
+                gameGridItems.forEach(item => {
+                    const title = item.querySelector('.game-grid-title').textContent.toLowerCase();
+                    if (title.includes(searchTerm)) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+            
+            // Rendre les téléchargements fonctionnels
+            const downloadButtons = document.querySelectorAll('.download-btn');
+            downloadButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const gameName = this.closest('.game-card').querySelector('.game-title').textContent;
+                    alert('Téléchargement de ' + gameName + ' commencé!');
+                    // Ici vous pourriez rediriger vers votre lien d'affiliation CPA
+                    // window.location.href = "votre_lien_cpa_ici";
+                });
+            });
+        });
+    </script>
+</body>
+</html>
